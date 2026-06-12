@@ -1,1 +1,63 @@
 @import "tailwindcss";
+
+@theme inline {
+  /* === Project background tokens === */
+  --color-base: #080809;
+  --color-surface: #111114;
+  --color-elevated: #18181c;
+  --color-subtle: #1e1e23;
+
+  /* === Project border tokens === */
+  --color-surface-border: #2a2a30;
+  --color-subtle-border: #3a3a42;
+
+  /* === Project text tokens === */
+  --color-copy-primary: #f0f0f4;
+  --color-copy-secondary: #c0c0cc;
+  --color-copy-muted: #808090;
+  --color-copy-faint: #505060;
+
+  /* === Project brand / accent tokens === */
+  --color-brand: #00c8d4;
+  --color-brand-dim: rgba(0, 200, 212, 0.12);
+  --color-ai: #6457f9;
+  --color-ai-text: #8b82ff;
+
+  /* === Project state tokens === */
+  --color-error: #ff4d4f;
+  --color-success: #34d399;
+  --color-warning: #fbbf24;
+
+  /* === shadcn/ui semantic tokens (dark theme) === */
+  --color-background: #080809;
+  --color-foreground: #f0f0f4;
+  --color-card: #111114;
+  --color-card-foreground: #f0f0f4;
+  --color-popover: #18181c;
+  --color-popover-foreground: #f0f0f4;
+  --color-primary: #00c8d4;
+  --color-primary-foreground: #080809;
+  --color-secondary: #1e1e23;
+  --color-secondary-foreground: #c0c0cc;
+  --color-muted: #18181c;
+  --color-muted-foreground: #808090;
+  --color-accent: #18181c;
+  --color-accent-foreground: #f0f0f4;
+  --color-destructive: #ff4d4f;
+  --color-destructive-foreground: #f0f0f4;
+  --color-border: #2a2a30;
+  --color-input: #2a2a30;
+  --color-ring: #00c8d4;
+
+  /* === Border radius scale === */
+  --radius: 0.75rem;
+}
+
+* {
+  border-color: var(--color-border);
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+}
