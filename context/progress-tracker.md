@@ -10,6 +10,12 @@ Update this file whenever the current phase, active feature, or implementation s
 
 ## Completed
 
+- **Editor Chrome — Navbar + Sidebar Shell** (`context/feature-specs/02-editor.md`)
+  - Created `components/editor/editor-navbar.tsx` — fixed-height top navbar, sidebar toggle with `PanelLeftOpen`/`PanelLeftClose` icons, dark background + subtle bottom border
+  - Created `components/editor/project-sidebar.tsx` — floating overlay sidebar (doesn't push content), slides in from left, `isOpen`/`onClose` props, "Projects" header with close button, shadcn Tabs (My Projects / Shared) with empty placeholder states, full-width "New Project" button with Plus icon
+  - Dialog pattern: existing `components/ui/dialog.tsx` already exports `DialogHeader`, `DialogFooter`, `DialogTitle`, `DialogDescription` — ready for future use
+  - TypeScript: zero errors
+
 - **Design System / UI Primitives** (`context/feature-specs/01-design-system.md`)
   - Installed: `clsx`, `tailwind-merge`, `lucide-react`, `class-variance-authority`
   - Installed Radix UI: `@radix-ui/react-dialog`, `@radix-ui/react-scroll-area`, `@radix-ui/react-slot`, `@radix-ui/react-tabs`
