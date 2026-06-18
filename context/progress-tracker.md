@@ -6,9 +6,20 @@ Update this file whenever the current phase, active feature, or implementation s
 - Phase 1: Foundation
 
 ## Current Goal
-- Authentication and route protection (Clerk)
+- Project creation and management (Phase 2)
 
 ## Completed
+
+- **Authentication and Route Protection** (`context/feature-specs/03-auth.md`)
+  - Installed `@clerk/ui` (v1.18.0) for theme support
+  - Added `NEXT_PUBLIC_CLERK_SIGN_IN_URL` and `NEXT_PUBLIC_CLERK_SIGN_UP_URL` to `.env.local`
+  - Wrapped root layout with `ClerkProvider` using `dark` theme from `@clerk/ui/themes` and CSS variable overrides (no hardcoded colors)
+  - Created `app/sign-in/[[...sign-in]]/page.tsx` — two-panel layout (left: logo/tagline/feature list, right: Clerk `<SignIn />`); small screens show form only
+  - Created `app/sign-up/[[...sign-up]]/page.tsx` — same two-panel pattern with `<SignUp />`
+  - Updated `app/page.tsx` — authenticated users redirect to `/editor`, unauthenticated to `/sign-in`
+  - Created `proxy.ts` at project root (Next.js 16 convention, named export `proxy`) using `clerkMiddleware` + `createRouteMatcher`; public routes are sign-in and sign-up paths; all other routes are protected
+  - Added `UserButton` to the right section of `components/editor/editor-navbar.tsx`
+  - `npm run build` passes with zero errors
 
 - **Editor Chrome — Navbar + Sidebar Shell** (`context/feature-specs/02-editor.md`)
   - Created `components/editor/editor-navbar.tsx` — fixed-height top navbar, sidebar toggle with `PanelLeftOpen`/`PanelLeftClose` icons, dark background + subtle bottom border
@@ -31,7 +42,7 @@ Update this file whenever the current phase, active feature, or implementation s
 
 ## Next Up
 
-- Authentication and route protection (Clerk)
+- Project creation and management (database, Prisma, API routes)
 
 ## Open Questions
 
@@ -47,3 +58,5 @@ Update this file whenever the current phase, active feature, or implementation s
 
 - shadcn components reference standard tokens (`bg-primary`, `text-foreground`, etc.) which resolve to the dark theme values defined in `app/globals.css`.
 - Project utility tokens available: `bg-base`, `bg-surface`, `bg-elevated`, `bg-subtle`, `border-surface-border`, `border-subtle-border`, `text-copy-primary`, `text-copy-secondary`, `text-copy-muted`, `text-copy-faint`, `text-brand`, `bg-brand-dim`, `text-ai`, `text-ai-text`, `text-error`, `text-success`, `text-warning`.
+- Clerk v7 appearance API uses `theme` (not `baseTheme`) for the `dark` theme from `@clerk/ui/themes`. The `Variables` type uses `colorInput` (input background), `colorInputForeground` (input text), `colorForeground` (primary text), `colorMutedForeground` (secondary text).
+- Next.js 16 uses `proxy.ts` (not `middleware.ts`). The exported function must be named `proxy`. `clerkMiddleware` from `@clerk/nextjs/server` works directly as the proxy handler.
