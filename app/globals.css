@@ -53,6 +53,22 @@
   --radius: 0.75rem;
 }
 
+/*
+ * Runtime CSS custom properties for third-party libraries (e.g. Clerk).
+ * @theme inline does not emit CSS variables, so these are defined explicitly.
+ */
+:root {
+  --ghost-bg: #080809;
+  --ghost-surface: #111114;
+  --ghost-elevated: #18181c;
+  --ghost-text: #f0f0f4;
+  --ghost-text-secondary: #c0c0cc;
+  --ghost-text-muted: #808090;
+  --ghost-brand: #00c8d4;
+  --ghost-error: #ff4d4f;
+  --ghost-success: #34d399;
+}
+
 * {
   border-color: var(--color-border);
 }
