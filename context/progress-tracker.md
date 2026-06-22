@@ -10,6 +10,15 @@ Update this file whenever the current phase, active feature, or implementation s
 
 ## Completed
 
+- **Project Dialogs + Editor Home** (`context/feature-specs/04-project-dialogs.md`)
+  - Editor home screen: heading, description, and New Project button wired to Create dialog
+  - `hooks/use-project-dialogs.ts` — dialog state, form state, slug preview, loading state, mock project data
+  - `components/editor/editor-context.tsx` — React context providing `openCreateProject` to child pages
+  - `components/editor/project-dialogs.tsx` — Create, Rename, Delete dialogs
+  - `components/editor/project-sidebar.tsx` — project list with rename/delete actions (owned only), mobile backdrop scrim
+  - `components/editor/editor-shell.tsx` — wires hook, context, sidebar, and dialogs together
+  - TypeScript: zero errors; lint: zero errors
+
 - **Authentication and Route Protection** (`context/feature-specs/03-auth.md`)
   - Installed `@clerk/ui` (v1.18.0) for theme support
   - Added `NEXT_PUBLIC_CLERK_SIGN_IN_URL` and `NEXT_PUBLIC_CLERK_SIGN_UP_URL` to `.env.local`
