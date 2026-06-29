@@ -11,13 +11,13 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog"
-import type { DialogType, MockProject } from "@/hooks/use-project-dialogs"
+import type { DialogType, Project } from "@/hooks/use-project-actions"
 
 interface ProjectDialogsProps {
   openDialog: DialogType
-  selectedProject: MockProject | null
+  selectedProject: Project | null
   projectName: string
-  slug: string
+  roomIdPreview: string
   isLoading: boolean
   onNameChange: (name: string) => void
   onClose: () => void
@@ -30,7 +30,7 @@ export function ProjectDialogs({
   openDialog,
   selectedProject,
   projectName,
-  slug,
+  roomIdPreview,
   isLoading,
   onNameChange,
   onClose,
@@ -43,7 +43,7 @@ export function ProjectDialogs({
       <CreateProjectDialog
         open={openDialog === "create"}
         projectName={projectName}
-        slug={slug}
+        roomIdPreview={roomIdPreview}
         isLoading={isLoading}
         onNameChange={onNameChange}
         onClose={onClose}
@@ -72,7 +72,7 @@ export function ProjectDialogs({
 function CreateProjectDialog({
   open,
   projectName,
-  slug,
+  roomIdPreview,
   isLoading,
   onNameChange,
   onClose,
@@ -80,7 +80,7 @@ function CreateProjectDialog({
 }: {
   open: boolean
   projectName: string
-  slug: string
+  roomIdPreview: string
   isLoading: boolean
   onNameChange: (name: string) => void
   onClose: () => void
@@ -103,9 +103,9 @@ function CreateProjectDialog({
             autoFocus
             onKeyDown={(e) => { if (e.key === "Enter" && projectName.trim()) onSubmit() }}
           />
-          {slug && (
+          {roomIdPreview && (
             <p className="text-xs text-copy-muted">
-              Slug: <span className="font-mono text-copy-secondary">{slug}</span>
+              Room ID: <span className="font-mono text-copy-secondary">{roomIdPreview}</span>
             </p>
           )}
         </div>
@@ -135,7 +135,7 @@ function RenameProjectDialog({
   onSubmit,
 }: {
   open: boolean
-  project: MockProject | null
+  project: Project | null
   projectName: string
   isLoading: boolean
   onNameChange: (name: string) => void
@@ -192,7 +192,7 @@ function DeleteProjectDialog({
   onSubmit,
 }: {
   open: boolean
-  project: MockProject | null
+  project: Project | null
   isLoading: boolean
   onClose: () => void
   onSubmit: () => void

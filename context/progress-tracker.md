@@ -10,6 +10,21 @@ Update this file whenever the current phase, active feature, or implementation s
 
 ## Completed
 
+- **Wire Editor Home to Real Project API** (`context/feature-specs/07-wire-editor-home.md`)
+  - Created `lib/projects.ts` — `getOwnedProjects(userId)` and `getSharedProjects(email)` using Prisma; dates serialized to ISO strings for RSC boundary safety
+  - Created `hooks/use-project-actions.ts` — manages dialog state + real API mutations; create POSTs then navigates to `/editor/[id]`; rename PATCHes + `router.refresh()`; delete DELETEs + redirects to `/editor` if active workspace else `router.refresh()`; stable suffix per dialog session for room ID preview
+  - Updated `app/editor/layout.tsx` — async server component; fetches owned and shared projects via Clerk `auth()`/`currentUser()`, passes both lists to `EditorShell`
+  - Updated `components/editor/editor-shell.tsx` — accepts `myProjects`/`sharedProjects` props from server; uses `useProjectActions` instead of old mock hook
+  - Updated `components/editor/project-sidebar.tsx` — type switched from `MockProject` to `Project`
+  - Updated `components/editor/project-dialogs.tsx` — type switched to `Project`; `slug` prop replaced by `roomIdPreview`; create dialog label changed to "Room ID:"
+  - `npm run build` passes with zero TypeScript errors
+
+- **Project CRUD API Routes** (`context/feature-specs/06-project-apis.md`)
+  - Created `app/api/projects/route.ts` — `GET` lists the authenticated user's projects (ordered by `createdAt` desc); `POST` creates a project, defaulting `name` to `"Untitled Project"`
+  - Created `app/api/projects/[projectId]/route.ts` — `PATCH` renames; `DELETE` deletes; both verify ownership and return `403` for non-owners; unauthenticated requests return `401`
+  - `params` resolved via `Promise<{ projectId: string }>` per Next.js 16 route handler convention
+  - `npm run build` passes with zero TypeScript errors
+
 - **Prisma Data Models + Client** (`context/feature-specs/05-prisma.md`)
   - Created `prisma/models/project.prisma` — `Project` and `ProjectCollaborator` models with correct relations, cascade delete, indexes, and unique constraints
   - Created `lib/prisma.ts` — cached singleton; branches on `DATABASE_URL`: `prisma+postgres://` uses `accelerateUrl` + `$extends(withAccelerate())`, all other URLs use `@prisma/adapter-pg`
@@ -59,7 +74,7 @@ Update this file whenever the current phase, active feature, or implementation s
 
 ## Next Up
 
-- Project CRUD API routes (`app/api/projects/`) — create, list, rename, delete
+- Workspace/canvas page at `app/editor/[projectId]/`
 
 ## Open Questions
 

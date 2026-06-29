@@ -4,16 +4,16 @@ import { Pencil, Plus, Trash2, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import type { MockProject } from "@/hooks/use-project-dialogs"
+import type { Project } from "@/lib/projects"
 
 interface ProjectSidebarProps {
   isOpen: boolean
   onClose: () => void
-  myProjects: MockProject[]
-  sharedProjects: MockProject[]
+  myProjects: Project[]
+  sharedProjects: Project[]
   onNewProject: () => void
-  onRenameProject: (project: MockProject) => void
-  onDeleteProject: (project: MockProject) => void
+  onRenameProject: (project: Project) => void
+  onDeleteProject: (project: Project) => void
 }
 
 export function ProjectSidebar({
@@ -123,9 +123,9 @@ function ProjectItem({
   onRename,
   onDelete,
 }: {
-  project: MockProject
-  onRename: (project: MockProject) => void
-  onDelete: (project: MockProject) => void
+  project: Project
+  onRename: (project: Project) => void
+  onDelete: (project: Project) => void
 }) {
   return (
     <li className="group flex items-center gap-1 rounded-xl px-2 py-1.5 hover:bg-elevated">
