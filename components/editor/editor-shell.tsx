@@ -5,18 +5,21 @@ import { EditorNavbar } from "./editor-navbar"
 import { ProjectSidebar } from "./project-sidebar"
 import { ProjectDialogs } from "./project-dialogs"
 import { EditorContext } from "./editor-context"
-import { useProjectDialogs } from "@/hooks/use-project-dialogs"
+import { useProjectActions } from "@/hooks/use-project-actions"
+import type { Project } from "@/lib/projects"
 
 interface EditorShellProps {
   children: React.ReactNode
+  myProjects: Project[]
+  sharedProjects: Project[]
 }
 
-export function EditorShell({ children }: EditorShellProps) {
+export function EditorShell({ children, myProjects, sharedProjects }: EditorShellProps) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
-  const dialogs = useProjectDialogs()
+  const actions = useProjectActions()
 
   return (
-    <EditorContext.Provider value={{ openCreateProject: dialogs.openCreate }}>
+    <EditorContext.Provider value={{ openCreateProject: actions.openCreate }}>
       <div className="h-screen overflow-hidden bg-base">
         <EditorNavbar
           isSidebarOpen={isSidebarOpen}
@@ -25,23 +28,23 @@ export function EditorShell({ children }: EditorShellProps) {
         <ProjectSidebar
           isOpen={isSidebarOpen}
           onClose={() => setIsSidebarOpen(false)}
-          myProjects={dialogs.myProjects}
-          sharedProjects={dialogs.sharedProjects}
-          onNewProject={dialogs.openCreate}
-          onRenameProject={dialogs.openRename}
-          onDeleteProject={dialogs.openDelete}
+          myProjects={myProjects}
+          sharedProjects={sharedProjects}
+          onNewProject={actions.openCreate}
+          onRenameProject={actions.openRename}
+          onDeleteProject={actions.openDelete}
         />
         <ProjectDialogs
-          openDialog={dialogs.openDialog}
-          selectedProject={dialogs.selectedProject}
-          projectName={dialogs.projectName}
-          slug={dialogs.slug}
-          isLoading={dialogs.isLoading}
-          onNameChange={dialogs.setProjectName}
-          onClose={dialogs.close}
-          onSubmitCreate={dialogs.submitCreate}
-          onSubmitRename={dialogs.submitRename}
-          onSubmitDelete={dialogs.submitDelete}
+          openDialog={actions.openDialog}
+          selectedProject={actions.selectedProject}
+          projectName={actions.projectName}
+          roomIdPreview={actions.roomIdPreview}
+          isLoading={actions.isLoading}
+          onNameChange={actions.setProjectName}
+          onClose={actions.close}
+          onSubmitCreate={actions.submitCreate}
+          onSubmitRename={actions.submitRename}
+          onSubmitDelete={actions.submitDelete}
         />
         <main className="h-full overflow-hidden pt-12">{children}</main>
       </div>
