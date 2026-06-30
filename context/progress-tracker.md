@@ -10,6 +10,16 @@ Update this file whenever the current phase, active feature, or implementation s
 
 ## Completed
 
+- **Share Dialog** (`context/feature-specs/09-share-dialog.md`)
+  - Created `app/api/projects/[projectId]/collaborators/route.ts` — `GET` lists collaborators (owner or collaborator access), enriched with Clerk display name + avatar via `clerkClient().users.getUserList({ emailAddress })`; `POST` invites by email, owner-only, validates email format, rejects self-invite and duplicates (`409`)
+  - Created `app/api/projects/[projectId]/collaborators/[collaboratorId]/route.ts` — `DELETE` removes a collaborator by record id, owner-only, verifies the record belongs to the project
+  - Created `components/editor/share-dialog.tsx` — client dialog with three sections: copy project link (`Copied!` feedback for 2s), invite-by-email form (owner only), and collaborator list with avatar/initials fallback and remove button (owner only); collaborators get read-only list view
+  - Updated `components/editor/workspace-shell.tsx` — `Share` button opens `ShareDialog`; added `isOwner` prop
+  - Updated `app/editor/[roomId]/page.tsx` — computes `isOwner = project.ownerId === userId` and passes it down
+  - Clerk Backend API enrichment is best-effort: falls back to showing only the email when no Clerk user is found for an address; no local user table added
+  - Avatars rendered via plain `<img>` (not `next/image`) to avoid remote-pattern config for Clerk's image CDN
+  - `npm run build` passes with zero TypeScript errors
+
 - **Editor Workspace Shell** (`context/feature-specs/08-editor-workspace-shell.md`)
   - Created `lib/project-access.ts` — `getCurrentIdentity()` returns `userId` + primary email via Clerk; `getProjectAccess()` checks owner or collaborator membership and returns a `ProjectSummary` or `null`
   - Created `components/editor/access-denied.tsx` — centered layout with `Lock` icon, short message, and link back to `/editor`

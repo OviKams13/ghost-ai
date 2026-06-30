@@ -21,5 +21,5 @@ export default async function EditorWorkspacePage({
     return <AccessDenied />
   }
 
-  return <WorkspaceShell project={project} />
+  return <WorkspaceShell project={project} isOwner={project.ownerId === userId} />
 }

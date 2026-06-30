@@ -3,14 +3,17 @@
 import { useState } from "react"
 import { Bot, Share2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { ShareDialog } from "@/components/editor/share-dialog"
 import type { ProjectSummary } from "@/lib/project-access"
 
 interface WorkspaceShellProps {
   project: ProjectSummary
+  isOwner: boolean
 }
 
-export function WorkspaceShell({ project }: WorkspaceShellProps) {
+export function WorkspaceShell({ project, isOwner }: WorkspaceShellProps) {
   const [isAIOpen, setIsAIOpen] = useState(false)
+  const [isShareOpen, setIsShareOpen] = useState(false)
 
   return (
     <div className="flex h-full flex-col">
@@ -24,6 +27,7 @@ export function WorkspaceShell({ project }: WorkspaceShellProps) {
             variant="ghost"
             size="sm"
             className="gap-1.5 text-copy-muted hover:text-copy-primary"
+            onClick={() => setIsShareOpen(true)}
           >
             <Share2 className="h-4 w-4" />
             Share
@@ -59,6 +63,14 @@ export function WorkspaceShell({ project }: WorkspaceShellProps) {
           </aside>
         )}
       </div>
+
+      <ShareDialog
+        open={isShareOpen}
+        onOpenChange={setIsShareOpen}
+        projectId={project.id}
+        projectName={project.name}
+        isOwner={isOwner}
+      />
     </div>
   )
 }
