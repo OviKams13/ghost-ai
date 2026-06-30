@@ -10,6 +10,14 @@ Update this file whenever the current phase, active feature, or implementation s
 
 ## Completed
 
+- **Editor Workspace Shell** (`context/feature-specs/08-editor-workspace-shell.md`)
+  - Created `lib/project-access.ts` — `getCurrentIdentity()` returns `userId` + primary email via Clerk; `getProjectAccess()` checks owner or collaborator membership and returns a `ProjectSummary` or `null`
+  - Created `components/editor/access-denied.tsx` — centered layout with `Lock` icon, short message, and link back to `/editor`
+  - Created `components/editor/workspace-shell.tsx` — client component; workspace navbar shows project name, placeholder Share button, and AI sidebar toggle (`Bot` icon); right AI sidebar placeholder slides in on toggle
+  - Created `app/editor/[roomId]/page.tsx` — server component; unauthenticated users redirect to `/sign-in`; missing or unauthorized projects show `AccessDenied`; authorized users see `WorkspaceShell` with project context
+  - Updated `components/editor/project-sidebar.tsx` — uses `usePathname` to compute `activeProjectId`; each `ProjectItem` is now a `Link` to `/editor/[id]` and receives `isActive` for highlighted styling
+  - `npm run build` passes with zero TypeScript errors
+
 - **Wire Editor Home to Real Project API** (`context/feature-specs/07-wire-editor-home.md`)
   - Created `lib/projects.ts` — `getOwnedProjects(userId)` and `getSharedProjects(email)` using Prisma; dates serialized to ISO strings for RSC boundary safety
   - Created `hooks/use-project-actions.ts` — manages dialog state + real API mutations; create POSTs then navigates to `/editor/[id]`; rename PATCHes + `router.refresh()`; delete DELETEs + redirects to `/editor` if active workspace else `router.refresh()`; stable suffix per dialog session for room ID preview
@@ -74,7 +82,7 @@ Update this file whenever the current phase, active feature, or implementation s
 
 ## Next Up
 
-- Workspace/canvas page at `app/editor/[projectId]/`
+- Real canvas with Liveblocks + React Flow (`app/editor/[roomId]`)
 
 ## Open Questions
 

@@ -1,5 +1,7 @@
 "use client"
 
+import Link from "next/link"
+import { usePathname } from "next/navigation"
 import { Pencil, Plus, Trash2, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -25,6 +27,11 @@ export function ProjectSidebar({
   onRenameProject,
   onDeleteProject,
 }: ProjectSidebarProps) {
+  const pathname = usePathname()
+  const activeProjectId = pathname.startsWith("/editor/")
+    ? pathname.split("/")[2]
+    : null
+
   return (
     <>
       {isOpen && (
@@ -75,6 +82,7 @@ export function ProjectSidebar({
                       <ProjectItem
                         key={project.id}
                         project={project}
+                        isActive={project.id === activeProjectId}
                         onRename={onRenameProject}
                         onDelete={onDeleteProject}
                       />
@@ -96,6 +104,7 @@ export function ProjectSidebar({
                       <ProjectItem
                         key={project.id}
                         project={project}
+                        isActive={project.id === activeProjectId}
                         onRename={onRenameProject}
                         onDelete={onDeleteProject}
                       />
@@ -120,18 +129,27 @@ export function ProjectSidebar({
 
 function ProjectItem({
   project,
+  isActive,
   onRename,
   onDelete,
 }: {
   project: Project
+  isActive: boolean
   onRename: (project: Project) => void
   onDelete: (project: Project) => void
 }) {
   return (
-    <li className="group flex items-center gap-1 rounded-xl px-2 py-1.5 hover:bg-elevated">
-      <span className="flex-1 truncate text-sm text-copy-secondary group-hover:text-copy-primary">
+    <li
+      className={`group flex items-center gap-1 rounded-xl px-2 py-1.5 hover:bg-elevated ${
+        isActive ? "bg-elevated" : ""
+      }`}
+    >
+      <Link
+        href={`/editor/${project.id}`}
+        className="flex-1 truncate text-sm text-copy-secondary group-hover:text-copy-primary"
+      >
         {project.name}
-      </span>
+      </Link>
       {project.isOwned && (
         <div className="flex shrink-0 items-center gap-0.5 opacity-0 transition-opacity group-hover:opacity-100">
           <Button
